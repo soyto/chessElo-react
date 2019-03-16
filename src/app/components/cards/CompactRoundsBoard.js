@@ -58,6 +58,4 @@ class CompactRoundsBoard extends Component {
     );
   }
 }
-
-
 export default CompactRoundsBoard;

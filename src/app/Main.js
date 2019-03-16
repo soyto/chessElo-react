@@ -12,19 +12,39 @@ class Main extends Component {
 
     //Generate a game and store it as variable
     this.game = new Game();
+    this.currentRoundNumber = this.game.rounds[this.game.rounds.length - 1].number;
 
     this.state = {
       gameRound: this.game.getLastRound()
     };
 
-    this.onGenerateNextRound = this.onGenerateNextRound.bind(this);
+
+    this.onPrevRound = this.onPrevRound.bind(this);
+    this.onNextRound = this.onNextRound.bind(this);
   }
 
-  onGenerateNextRound() {
-    this.game.playNextRound();
+  onPrevRound() {
+
+    if(this.currentRoundNumber === 1) { return; }
+
+    this.currentRoundNumber -= 1;
     this.setState({
-      gameRound: this.game.getLastRound()
-    })
+      gameRound: this.game.rounds[this.currentRoundNumber - 1]
+    });
+
+  }
+
+  onNextRound() {
+
+    if(this.currentRoundNumber + 1 > this.game.rounds.length) {
+      this.game.playNextRound();
+    }
+
+    this.currentRoundNumber += 1;
+
+    this.setState({
+      gameRound: this.game.rounds[this.currentRoundNumber - 1]
+    });
   }
 
   render() {
@@ -33,7 +53,9 @@ class Main extends Component {
           <Navbar location={this.props.location}></Navbar>
 
           <Route exact path="/" render={() => (
-              <IndexPage gameRound={this.state.gameRound} onGenerateNextRound={this.onGenerateNextRound}/>
+              <IndexPage gameRound={this.state.gameRound}
+                         onPrevRound={this.onPrevRound}
+                         onNextRound={this.onNextRound}/>
               )}></Route>
         </Router>
 

@@ -8,16 +8,18 @@ class IndexPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onGenerateNextRound = this.onGenerateNextRound.bind(this);
+    this.onPrevRound = this.onPrevRound.bind(this);
+    this.onNextRound = this.onNextRound.bind(this);
   }
 
-  onGenerateNextRound(args) {
+  onPrevRound(args) {
     args.preventDefault();
+    if(this.props.onPrevRound) { this.props.onPrevRound(); }
+  }
 
-    if(this.props.onGenerateNextRound) {
-      this.props.onGenerateNextRound();
-    }
-
+  onNextRound(args) {
+    args.preventDefault();
+    if(this.props.onNextRound) { this.props.onNextRound(); }
   }
 
   render() {
@@ -25,8 +27,10 @@ class IndexPage extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h1>Round {this.props.gameRound.number}
-              <button className="btn btn-outline-primary btn-sm ml-2" onClick={this.onGenerateNextRound}>Generate next round</button>
+              <h1>
+                Round {this.props.gameRound.number}
+                <button className="btn btn-outline-primary btn-sm ml-2" disabled={this.props.gameRound.number === 1} onClick={this.onPrevRound}>&laquo; Prev</button>
+                <button className="btn btn-outline-primary btn-sm ml-2" onClick={this.onNextRound}>Next &raquo;</button>
               </h1>
             </div>
             <div className="col-12 col-lg-4">
