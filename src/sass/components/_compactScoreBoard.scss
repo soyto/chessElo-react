@@ -1,0 +1,25 @@
+.card-compact-score-board {
+
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+  .card-header{
+    background-color: $primary;
+    color: $white;
+    font-weight: bold;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .card-footer{
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .table {
+    font-size: 0.85em;
+    margin-bottom: 0;
+  }
+  .fa.fa-arrow-up{ color: green;}
+  .fa.fa-arrow-down{ color: red;}
+}
