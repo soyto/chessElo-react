@@ -49,9 +49,6 @@ class CompactScoreBoard extends React.Component {
               {items}
             </tbody>
           </table>
-          <div className="card-footer text-center">
-            <Link to={`/round/${this.props.round.number}/scoreboard`}>View more</Link>
-          </div>
         </div>
     );
   }

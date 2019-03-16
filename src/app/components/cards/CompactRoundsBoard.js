@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 
-function CompactRoundsBoardItem(roundNumber, match) {
+function CompactRoundsBoardItem(match) {
 
   let whiteClass = match.result === 1 ? 'bg-won' : match.result === 0 ? 'bg-lose' : null;
   let blackClass = match.result === 0 ? 'bg-won' : match.result === 1 ? 'bg-lose' : null;
 
   return (
       <tr key={match.uuid}>
-        <td><Link to={`/r/${roundNumber}/${match.uuid}`}>#{match.uuid.split('-')[0]}</Link></td>
+        <td><Link to={`/m/${match.uuid}`}>#{match.uuid.split('-')[0]}</Link></td>
         <td className={`text-right ${whiteClass}`}>
           {match.whitePlayer.player.name} ({match.whitePlayer.originalElo})
         </td>
@@ -32,7 +32,7 @@ class CompactRoundsBoard extends Component {
     let matches = this.props.round.matches.slice();
     matches.sort((a, b) => (b.whitePlayer.originalElo + b.blackPlayer.originalElo) - (a.whitePlayer.originalElo + a.blackPlayer.originalElo));
 
-    let items = matches.slice(0, maxItems).map(x => CompactRoundsBoardItem(this.props.round.number, x));
+    let items = matches.slice(0, maxItems).map(x => CompactRoundsBoardItem(x));
 
 
     return (
@@ -51,9 +51,6 @@ class CompactRoundsBoard extends Component {
             {items}
             </tbody>
           </table>
-          <div className="card-footer text-center">
-            <Link to={`/r/${this.props.round.number}/matches`}>View more</Link>
-          </div>
         </div>
     );
   }

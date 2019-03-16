@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {HashRouter as Router, Route} from "react-router-dom";
 
 import IndexPage from './components/pages/IndexPage';
+import PlayerPage from './components/pages/PlayerPage';
+import NotFoundPage from './components/pages/NotFoundPage';
+import MatchPage from './components/pages/MatchPage';
+
 import Navbar from './components/Navbar';
 
 import Game from './models/Game';
@@ -52,11 +56,37 @@ class Main extends Component {
         <Router>
           <Navbar location={this.props.location}></Navbar>
 
+
           <Route exact path="/" render={() => (
               <IndexPage gameRound={this.state.gameRound}
                          onPrevRound={this.onPrevRound}
                          onNextRound={this.onNextRound}/>
-              )}></Route>
+          )} />
+
+          <Route exact path="/m/:uuid" render={({match, history}) => {
+            let matchInfo = this.game.getMatchInfo(match.params.uuid);
+
+            if(!matchInfo) {
+              history.push('/404/');
+              return null;
+            }
+
+            return (<MatchPage matchInfo={matchInfo} />);
+          }} />
+
+          <Route exact path="/p/:uuid" render={({match, history}) => {
+            let playerInfo = this.game.getPlayerInfo(match.params.uuid);
+
+            if(!playerInfo) {
+              history.push('/404/');
+              return null;
+            }
+
+            return (<PlayerPage playerInfo={playerInfo} />);
+          }} />
+
+
+          <Route path="/404/" component={NotFoundPage}></Route>
         </Router>
 
     );

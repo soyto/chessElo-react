@@ -20,6 +20,9 @@ class Game {
     this.playNextRound();
   }
 
+  /**
+   *
+   */
   playNextRound() {
     let previousScoreBoard = this.rounds.length > 0 ? this.rounds[this.rounds.length - 1].scoreBoard : null;
     let roundNumber = this.rounds.length + 1;
@@ -30,11 +33,58 @@ class Game {
     this._rounds.push(new Round(roundNumber, matches, scoreBoard, date));
   }
 
+  /**
+   * Retrieves the last round
+   * @returns {Round}
+   */
   getLastRound() {
     if(this.rounds.length === 0) { return null;}
     return this.rounds[this.rounds.length - 1];
   }
 
+  /**
+   * Retrieves player Info
+   * @param playerUuid
+   * @returns {*}
+   */
+  getPlayerInfo(playerUuid) {
+    let playerInfo = {
+      player: null,
+      matches: []
+    };
+
+    playerInfo.player = this.players.filter(x => x.uuid == playerUuid).shift();
+    if(!playerInfo.player) { return null; }
+
+    //Add player matches
+    for(let round of this.rounds) {
+      let match = round.matches
+          .filter(x => x.whitePlayer.player.uuid == playerUuid || x.blackPlayer.player.uuid == playerUuid)
+          .shift();
+
+      if(match) {
+        playerInfo.matches.push({
+          roundNumber: round.number,
+          match: match
+        });
+      }
+    }
+
+    return playerInfo;
+  }
+
+  getMatchInfo(matchUuid) {
+
+    let match = null;
+
+    for(let round of this.rounds) {
+      match = round.matches.filter(x => x.uuid == matchUuid).shift();
+      if(match) { break; }
+    }
+
+
+    return match;
+  }
 
 }
 
